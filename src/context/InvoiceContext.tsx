@@ -243,7 +243,7 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
           setPushReferenceValidationResult(null);
 
           try {
-              const monto = paymentSummary.totalAmount.toString();
+              const monto = paymentSummary.totalAmount.toFixed(2);;
               const banco = selectedBank.bank_code;
 
               // Create a Date object for the current date in the local timezone
