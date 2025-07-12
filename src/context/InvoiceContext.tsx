@@ -195,8 +195,8 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
     }, [setBankDetails, setApiError]);
 
     const handleBankSelection = useCallback((bank: Bank) => {
-        console.log("handleBankSelection triggered with bank:", bank);
-        console.log("Selected bank ID: ", bank.id);
+        ////console.log("handleBankSelection triggered with bank:", bank);
+        ////console.log("Selected bank ID: ", bank.id);
 
         setSelectedBank(bank);
         setBankDetails({ message: bank.message || '', qr_image: bank.qr_image });
@@ -209,7 +209,7 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
         try {
             const banksFromApiResult = await getBanksFromApi(cedula, apiToken);
             setAvailableBanks(banksFromApiResult);
-            console.log("Available Banks:", banksFromApiResult);
+            ////console.log("Available Banks:", banksFromApiResult);
             setBanksLoaded(true);
             setApiError(null);
         } catch (error: any) {
@@ -222,15 +222,15 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
     }, [setAvailableBanks, setApiError, setBanksLoaded, setSelectedBank]);
 
    const startPushReferenceValidation = useCallback(async () => {
-        console.log("startPushReferenceValidation triggered");
+        ////console.log("startPushReferenceValidation triggered");
 
         if (hasPaymentBeenAttempted.current) {
-           console.log("Payment has been attempted, skipping Push Reference validation");
+           ////console.log("Payment has been attempted, skipping Push Reference validation");
            return;
         }
 
         if (isManualReference) {
-            console.log("Manual reference is true, not validating Push Reference");
+            ////console.log("Manual reference is true, not validating Push Reference");
             return;
         }
 
@@ -248,7 +248,7 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
             const fecha = new Date().toISOString().slice(0, 10);
             const validationResult = await validatePushReference(monto, banco, fecha, cedula, telefono, apiToken);
             setPushReferenceValidationResult(validationResult);
-            console.log("Push reference validation result:", validationResult);
+            //("Push reference validation result:", validationResult);
         } catch (error: any) {
             console.error("Error in push reference validation:", error);
             setPushReferenceValidationResult({ status: false, message: `Validation failed: ${error.message}` });
@@ -256,7 +256,7 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
     }, [selectedBank, cedula, telefono, paymentSummary.totalAmount, setPushReferenceValidationResult, setIsPushReferenceValidating, apiToken, isManualReference]);
 
     useEffect(() => {
-         console.log("useEffect for push reference validation triggered");
+         ////console.log("useEffect for push reference validation triggered");
 
          // Clear any existing interval first
          if (validationInterval.current) {
@@ -266,15 +266,15 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
 
         if (isPushReferenceValidating && currentStep === 3 && !isManualReference && !hasPaymentBeenAttempted.current) {
             validationInterval.current = setInterval(async () => {
-                console.log("Push reference validation interval running...");
+                ////console.log("Push reference validation interval running...");
                 if (selectedBank && cedula && telefono) {
-                    console.log("All required data present, attempting push reference validation...");
+                    ////console.log("All required data present, attempting push reference validation...");
                     try {
                         const monto = paymentSummary.totalAmount.toString();
                         const banco = selectedBank.bank_code;
                         const fecha = new Date().toISOString().slice(0, 10);
                         const validationResult = await validatePushReference(monto, banco, fecha, cedula, telefono, apiToken);
-                        console.log("Push reference validation result:", validationResult);
+                        ////console.log("Push reference validation result:", validationResult);
                         setPushReferenceValidationResult(validationResult);
 
                     } catch (error: any) {
@@ -285,7 +285,7 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
                              clearInterval(validationInterval.current);
                              validationInterval.current = null;
                          }
-                        console.log("Push reference validation failed with error, stopping interval");
+                        ////console.log("Push reference validation failed with error, stopping interval");
                     }
                 } else {
                     console.warn("Missing data for push reference validation");
@@ -297,16 +297,16 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
                         validationInterval.current = null;
                     }
 
-                    console.log("Missing data, stopping push reference validation interval");
+                    //console.log("Missing data, stopping push reference validation interval");
                 }
             }, 2000);
         }
          return () => {
-               console.log("useEffect cleanup triggered");
+               //console.log("useEffect cleanup triggered");
                if (validationInterval.current) {
                    clearInterval(validationInterval.current);
                    validationInterval.current = null;
-                   console.log("Clearing push reference validation interval");
+                   //console.log("Clearing push reference validation interval");
                }
            };
 
@@ -317,20 +317,20 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
        if (pushReferenceValidationResult && pushReferenceValidationResult.status && pushReferenceValidationResult.id && !hasPushPaymentBeenCreated.current) {
            setIsPushReferenceValidating(false);
            setCurrentStep(5); // Move to validating screen first
-           console.log("Moving to validating screen (Step 5) after push reference validation.");
+           //console.log("Moving to validating screen (Step 5) after push reference validation.");
 
            // **Crucial Delay:** Wait 5 seconds *before* creating the payment and moving to step 6
            setTimeout(() => {
-               console.log("Timeout complete, now creating push payment...");
+               //console.log("Timeout complete, now creating push payment...");
                createPushPaymentAndProceed();
            }, 3000);
        } else if (pushReferenceValidationResult && !pushReferenceValidationResult.status) {
-           console.log("pushReferenceValidationResult FAIL");
+           //console.log("pushReferenceValidationResult FAIL");
        }
    }, [pushReferenceValidationResult, createPushPayment, setCurrentStep]);
 
      const createPushPaymentAndProceed = useCallback(async () => {
-        console.log("createPushPaymentAndProceed triggered");
+        //console.log("createPushPaymentAndProceed triggered");
 
         hasPaymentBeenAttempted.current = true;
         hasPushPaymentBeenCreated.current = true;
@@ -408,26 +408,26 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
             // Collect invoice IDs
             const invoiceIds = paymentSummary.selectedInvoices.map(invoice => parseInt(invoice.id));
 
-            console.log("About to createPushPayment...");
-            console.log("  monto:", monto);
-            console.log("  idFormaPago:", idFormaPago);
-            console.log("  fecha:", fecha);
-            console.log("  cedula:", cedula);
-            console.log("  idCliente:", idCliente);
-            console.log("  tasaCambio:", tasaCambio);
-            console.log("  idImportacion:", idImportacion);
-            console.log(" invoiceIds:", invoiceIds);
-            console.log("  apiToken:", apiToken);
-            console.log("  Selected Bank (right before createPushPayment):", selectedBank);
-            console.log("  Payment Method (right before createPushPayment):", paymentMethod);
+            //console.log("About to createPushPayment...");
+            //console.log("  monto:", monto);
+            //console.log("  idFormaPago:", idFormaPago);
+            //console.log("  fecha:", fecha);
+            //console.log("  cedula:", cedula);
+            //console.log("  idCliente:", idCliente);
+            //console.log("  tasaCambio:", tasaCambio);
+            //console.log("  idImportacion:", idImportacion);
+            //console.log(" invoiceIds:", invoiceIds);
+            //console.log("  apiToken:", apiToken);
+            //console.log("  Selected Bank (right before createPushPayment):", selectedBank);
+            //console.log("  Payment Method (right before createPushPayment):", paymentMethod);
 
             const paymentResult = await createPushPayment(monto, idFormaPago, fecha, cedula, idCliente, tasaCambio, idImportacion, invoiceIds, apiToken);
 
-            console.log("createPushPayment API Response:", paymentResult);
+            //console.log("createPushPayment API Response:", paymentResult);
             setPaymentCreationResult(paymentResult);
 
             if (paymentResult.status) {
-                console.log("Payment created successfully, moving to Step 4");
+                //console.log("Payment created successfully, moving to Step 4");
             } else {
                 console.error("Payment creation failed:", paymentResult.message);
                 setApiError(paymentResult.message || "Error creating push payment.");

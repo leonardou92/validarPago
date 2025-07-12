@@ -66,7 +66,7 @@ export const Step2ReviewPayment: React.FC<Step2Props> = ({
                 alert("Por favor, ingrese el número de referencia.");
                 return;
             }
-            console.log('Calling validateReference');
+            //console.log('Calling validateReference');
 
             const reference = localReferenceNumber;
             const monto = summary.totalAmount.toString();

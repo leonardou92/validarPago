@@ -45,9 +45,9 @@ export const Step0BankSelection: React.FC<Step0Props> = () => {
             <div
               key={bank.payment_method_id}
               onClick={() => {
-                console.log("Bank Selected:", bank);
-                console.log("Bank ID Selected:", bank.payment_method_id);
-                console.log("Bank payment_method_id:", bank.payment_method_id);  // <-- Add this line
+                //console.log("Bank Selected:", bank);
+                //console.log("Bank ID Selected:", bank.payment_method_id);
+                //console.log("Bank payment_method_id:", bank.payment_method_id);  // <-- Add this line
                 handleBankSelection(bank);
               }}
               className={`

@@ -154,7 +154,7 @@ function AppContent() {
 
                     // If invoices exist, proceed to step 1
                     setCurrentStep(1);
-                    console.log('step1');
+                    //console.log('step1');
                 } else {
                     // Customer not found
                     setIsClientNotFoundModalOpen(true);
