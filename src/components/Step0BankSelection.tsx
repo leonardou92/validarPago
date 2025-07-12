@@ -70,12 +70,6 @@ export const Step0BankSelection: React.FC<Step0Props> = () => {
                   <p className="text-sm text-gray-600 mb-2">
                     {bank.shortName}
                   </p>
-                  <div className="flex items-center space-x-2">
-                    <CreditCard className="w-4 h-4 text-gray-500" />
-                    <span className="text-xs text-gray-500">
-                      Pagos en línea disponibles
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>

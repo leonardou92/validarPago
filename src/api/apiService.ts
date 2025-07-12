@@ -15,7 +15,7 @@ export const getBanksFromApi = async (cedula: string, apiToken: string): Promise
             },
         });
 
-        if (!response.status) {
+        if (!response.ok) {
             console.error(`API request failed with status: ${response.status}`);
             throw new Error(`API request failed with status: ${response.status}`);
         }
@@ -25,7 +25,7 @@ export const getBanksFromApi = async (cedula: string, apiToken: string): Promise
         if (data.status === true && data.config && Array.isArray(data.config)) {
             return data.config.map((apiBank: any) => ({
                 id: apiBank.id_banco,
-                name: (apiBank.message ?? '').split('\n')[0],
+                name: apiBank.nameBank || apiBank.shortName, // Use nameBank if available, otherwise shortName
                 shortName: apiBank.shortName,
                 logo: '🏦',
                 color: 'from-green-500 to-green-600',
@@ -54,7 +54,7 @@ export const searchClient = async (cedula: string, apiToken: string): Promise<Cl
             },
         });
 
-        if (!response.status) {
+        if (!response.ok) {
             throw new Error(`API request failed with status: ${response.status}`);
         }
 
@@ -77,6 +77,10 @@ export const fetchInvoicesFromApi = async (cedula: string, apiToken: string): Pr
         });
 
 
+        if (!response.ok) {
+             console.error(`API request failed with status: ${response.status}`);
+               throw new Error(`API request failed with status: ${response.status}`);
+           }
         const data = await response.json();
 
            if (!data.facturas){
@@ -128,7 +132,7 @@ export const validateReference = async (
             }),
         });
 
-        if (!response.status) {
+        if (!response.ok) {
             throw new Error(`API request failed with status: ${response.status}`);
         }
 
@@ -164,7 +168,8 @@ export const validatePushReference = async (
             }),
         });
 
-        if (!response.status) {
+         if (!response.ok) {
+            console.error(`API request failed with status: ${response.status}`);
             throw new Error(`API request failed with status: ${response.status}`);
         }
 
@@ -207,7 +212,8 @@ export const createPushPayment = async (
             }),
         });
 
-        if (!response.status) {
+        if (!response.ok) {
+           console.error(`API request failed with status: ${response.status}`);
             throw new Error(`API request failed with status: ${response.status}`);
         }
 

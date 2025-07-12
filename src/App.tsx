@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 import { useInvoiceContext } from './context/InvoiceContext';
 import { useInvoiceManager } from './hooks/useInvoiceManager';
@@ -80,7 +79,8 @@ function AppContent() {
     const [cedulaNumber, setCedulaNumber] = useState('');
     const [localCedula, setLocalCedula] = useState('');
     const [isCedulaRequiredModalOpen, setIsCedulaRequiredModalOpen] = useState(false); // Modal state
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [language, setLanguage] = useState('es');
 
     //MODAL MESSAGE
     const [modalMessage, setModalMessage] = useState('')
@@ -89,6 +89,15 @@ function AppContent() {
     const [isClientNotFoundModalOpen, setIsClientNotFoundModalOpen] = useState(false); // Client not found Modal state
 
     const hasSelectedInvoices = selectedInvoiceIds.size > 0;
+
+    useEffect(() => {
+        document.documentElement.lang = language;
+        document.documentElement.setAttribute('xml:lang', language);
+    }, [language]);
+
+    const handleLanguageChange = (newLanguage: string) => {
+        setLanguage(newLanguage);
+    };
 
     const handleNext = useCallback(() => {
         const hasSelected = selectedInvoiceIds.size > 0
@@ -211,6 +220,8 @@ function AppContent() {
         }
         return null;
     };
+
+
 
     switch (currentStep) {
         case 0:
@@ -340,7 +351,7 @@ function AppContent() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 flex items-center justify-center">
+        <div lang={language} className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 flex items-center justify-center">
             {/* Required Cedula Modal */}
             <Modal
                 isOpen={isCedulaRequiredModalOpen}
@@ -374,11 +385,19 @@ function AppContent() {
 
              <main className="container mx-auto px-3 py-6 md:px-4 md:py-8 max-w-4xl">
                 {/* Header Section */}
+               <head>
+                 <meta charSet="UTF-8"/>
+                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                 <meta httpEquiv="Content-Language" content={language}/>
+                 <meta name="google" content="notranslate"/>
+               </head>
                 <header className="bg-gradient-to-br from-blue-200 to-blue-50 p-6 md:p-8 rounded-3xl shadow-xl mb-8 md:mb-12">
                     <div className="flex items-center justify-between mb-4 md:mb-6">
+                      {/* Add the language buttons here*/}
                          <CompanyInfoDisplay
                             apiUrl="https://developerv3.icarosoft.com/scriptcase/app/api/cliente_backend/?action=dataCompany"
                             apiToken={import.meta.env.VITE_API_TOKEN}
+                            language={language}
                           />
                         <div className="hidden md:block"> {/* Hide on small screens */}
                             <h1 className="text-xl md:text-2xl font-bold text-blue-800 tracking-tight">
