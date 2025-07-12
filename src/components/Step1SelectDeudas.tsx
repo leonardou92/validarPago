@@ -83,12 +83,12 @@ const Step1SelectDeudasComponent: React.FC<Step1Props> = ({
         <div className="space-y-6">
             {/* Client Information Section */}
             <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
-                <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <div className="bg-gray-50 px-4 py-3 md:px-6 md:py-4 border-b border-gray-200">
                     <h4 className="text-lg font-semibold text-gray-900">
                         Información del Cliente
                     </h4>
                 </div>
-                <div className="p-6">
+                <div className="p-4 md:p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div>
                             <span className="block font-medium text-gray-700">Nombre:</span>
@@ -110,11 +110,11 @@ const Step1SelectDeudasComponent: React.FC<Step1Props> = ({
                 </div>
             </div>
 
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 md:p-6 border border-blue-200">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2 md:mb-3">
                     Paso 1: Seleccionar Deudas
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed text-sm">
                     Elige las deudas a pagar. Puedes usar los filtros para encontrar deudas específicas.
                 </p>
             </div>
@@ -133,17 +133,17 @@ const Step1SelectDeudasComponent: React.FC<Step1Props> = ({
             <div className="flex flex-wrap gap-2">
                 <button
                     onClick={handleSelectAllWrapper}
-                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-sm"
+                    className="flex items-center space-x-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-sm"
                 >
-                    <CheckSquare className="w-5 h-5" />
+                    <CheckSquare className="w-4 h-4" />
                     <span>Todas</span>
                 </button>
 
                 <button
                     onClick={handleClearSelectionWrapper}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium focus:outline-none focus:ring-gray-500 focus:ring-opacity-50 shadow-sm"
+                    className="flex items-center space-x-2 px-3 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium focus:outline-none focus:ring-gray-500 focus:ring-opacity-50 shadow-sm"
                 >
-                    <XSquare className="w-5 h-5" />
+                    <XSquare className="w-4 h-4" />
                     <span>Limpiar</span>
                 </button>
             </div>
@@ -164,7 +164,7 @@ const Step1SelectDeudasComponent: React.FC<Step1Props> = ({
                     onClick={handleNext}
                     disabled={!hasSelection}
                     className={`
-            px-6 py-3 rounded-lg font-semibold transition-all duration-200 text-sm
+            px-5 py-2 rounded-lg font-semibold transition-all duration-200 text-sm
             ${hasSelection
                             ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
                             : 'bg-gray-300 text-gray-500 cursor-not-allowed'

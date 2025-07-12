@@ -38,32 +38,10 @@ const FilterBarComponent: React.FC<FilterBarProps> = ({
         </div>
 
         <div className="flex flex-col md:flex-row gap-4"> {/* Modified: Added flex-col on small screens */}
-          <div className="flex items-center space-x-2">
-            <Filter className="w-5 h-5 text-gray-400" />
-            <select
-              value={statusFilter}
-              onChange={(e) => onStatusFilterChange(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-            >
-              <option value="">Todos los estados</option>
-              <option value="pending">Pendientes</option>
-              <option value="overdue">Vencidas</option>
-            </select>
-          </div>
+          
 
           <div className="flex items-center space-x-2">
-            <select
-              value={sortBy}
-              onChange={(e) => {
-                const value = e.target.value as "dueDate" | "amount" | "supplier";
-                onSortChange(value);
-              }}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-            >
-              <option value="dueDate">Fecha de vencimiento</option>
-              <option value="amount">Monto</option>
-              <option value="supplier">Proveedor</option>
-            </select>
+          
             
             <button
               onClick={() => onSortOrderChange(sortOrder === 'asc' ? 'desc' : 'asc')}
