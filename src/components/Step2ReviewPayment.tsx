@@ -10,7 +10,7 @@ interface Step2Props {
     summary: PaymentSummary;
 }
 
-export const Step2ReviewPayment: React.FC<Step2Props> = ({
+export const Step2ReviewPayment: React.FC<Step2Props> = ({  // <---- ENSURE THIS IS THE CORRECT EXPORT (Named or Default)
     summary,
 }) => {
     const {setReferenceNumber, selectedBank, bankDetails, setIsPushReferenceValidating, pushReferenceValidationResult, startPushReferenceValidation, isPushReferenceValidating,cedula, telefono,setTelefono,clientData, setCurrentStep, isManualReference, setIsManualReference } = useInvoiceContext();
@@ -19,15 +19,15 @@ export const Step2ReviewPayment: React.FC<Step2Props> = ({
     const { apiToken } = useInvoiceContext();
 
     const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('es-ES', {
-            style: 'currency',
-            currency: 'VES',
-            minimumFractionDigits: 2
+        const formattedAmount = new Intl.NumberFormat('es-VE', {
+            style: 'decimal',
+            minimumFractionDigits: 2,
         }).format(amount);
+        return `Bs. ${formattedAmount}`;
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('es-ES', {
+        return new Date(dateString).toLocaleDateString('es-VE', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -223,9 +223,10 @@ export const Step2ReviewPayment: React.FC<Step2Props> = ({
                </div>
                 */}
             </div>
-             
+
         </div>
     );
 };
 
+// If you are using a default export
 export default Step2ReviewPayment;

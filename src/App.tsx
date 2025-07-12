@@ -5,7 +5,7 @@ import { useInvoiceManager } from './hooks/useInvoiceManager';
 import { Banknote } from 'lucide-react';
 import { Step1SelectDeudas } from './components/Step1SelectDeudas';
 import { Step0BankSelection } from "./components/Step0BankSelection";
-import { Step2ReviewPayment } from './components/Step2ReviewPayment';
+import { Step2ReviewPayment } from './components/Step2ReviewPayment';  // <---- ENSURE THIS IS CORRECT (Named or Default import)
 import { Step3ConfirmPayment } from './components/Step3ConfirmPayment';
 import { Step4Complete } from './components/Step4Complete';
 import { InvoiceProvider } from './context/InvoiceContext';
@@ -72,7 +72,7 @@ function AppContent() {
         setSearchTerm,
         setStatusFilter,
         setSortBy,
-        setSortOrder, 
+        setSortOrder,
     } = useInvoiceManager(invoices);
 
     const [cedulaType, setCedulaType] = useState('V');
@@ -104,7 +104,7 @@ function AppContent() {
         setCurrentStep(4);
     }, [setCurrentStep]);
 
-   const handleCedulaNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCedulaNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         // Allow only numbers
         if (/^\d*$/.test(value)) {
@@ -121,7 +121,7 @@ function AppContent() {
         });
     };
 
-   const handleSearchBanks = useCallback(async () => {
+    const handleSearchBanks = useCallback(async () => {
         //setInvoices([]); // Remove this line
         if (cedulaType && cedulaNumber) {
             const fullCedula = cedulaType + cedulaNumber;
@@ -143,7 +143,7 @@ function AppContent() {
                     const invoices = await fetchInvoicesFromApi(fullCedula, apiToken);
                     setInvoices(invoices);
 
-    
+
                     // Check if there are no debts after fetching invoices
                     if (invoices.length === 0) {
                         setShowModal(true);
@@ -291,7 +291,7 @@ function AppContent() {
         case 3:
             content = (
                 <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 md:p-8">
-                    <Step2ReviewPayment
+                    <Step2ReviewPayment  //  <---- Make SURE THIS IS THE CORRECT IMPORT
                         summary={paymentSummary}
                     />
                 </div>

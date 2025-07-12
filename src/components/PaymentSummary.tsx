@@ -1,4 +1,3 @@
-// src/components/PaymentSummary.tsx
 import React, { memo } from 'react';
 import { PaymentSummary } from '../types/invoice';
 import { DollarSign, FileText, AlertTriangle, CheckCircle, CreditCard } from 'lucide-react';
@@ -13,7 +12,7 @@ const PaymentSummaryComponentInner: React.FC<PaymentSummaryProps> = ({
     onProcessPayment
 }) => {
     const formatCurrency = (amount: number) => {
-         const formattedAmount = new Intl.NumberFormat('es-VE', {
+         const formattedAmount = new Intl.NumberFormat('es-VE', { //es-VE
             style: 'decimal', // Use decimal style to avoid symbol
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,

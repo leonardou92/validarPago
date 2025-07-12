@@ -14,15 +14,21 @@ export const InvoiceCard: React.FC<InvoiceCardProps> = ({
     onSelectionChange
 }) => {
     const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('es-ES', {
-            style: 'currency',
-            currency: 'VES',
+        // return new Intl.NumberFormat('es-ES', { // Changed from es-ES to es-VE
+        //     style: 'currency',
+        //     currency: 'VES', // or VEF  or just use style decimal and prepend the symbol (VES deprecated)
+        //     minimumFractionDigits: 2
+        // }).format(amount);
+
+        const formattedAmount = new Intl.NumberFormat('es-VE', {
+            style: 'decimal',
             minimumFractionDigits: 2
         }).format(amount);
+        return `Bs. ${formattedAmount}`;
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('es-ES', {
+        return new Date(dateString).toLocaleDateString('es-VE', { //es-VE
             year: 'numeric',
             month: 'short', // Short month for compactness
             day: 'numeric'

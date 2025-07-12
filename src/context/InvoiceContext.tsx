@@ -222,38 +222,45 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
     }, [setAvailableBanks, setApiError, setBanksLoaded, setSelectedBank]);
 
    const startPushReferenceValidation = useCallback(async () => {
-        ////console.log("startPushReferenceValidation triggered");
+          ////console.log("startPushReferenceValidation triggered");
 
-        if (hasPaymentBeenAttempted.current) {
-           ////console.log("Payment has been attempted, skipping Push Reference validation");
-           return;
-        }
+          if (hasPaymentBeenAttempted.current) {
+             ////console.log("Payment has been attempted, skipping Push Reference validation");
+             return;
+          }
 
-        if (isManualReference) {
-            ////console.log("Manual reference is true, not validating Push Reference");
-            return;
-        }
+          if (isManualReference) {
+              ////console.log("Manual reference is true, not validating Push Reference");
+              return;
+          }
 
-        if (!selectedBank || !cedula || !telefono) {
-            console.warn("Missing required data for push reference validation.");
-            return;
-        }
+          if (!selectedBank || !cedula || !telefono) {
+              console.warn("Missing required data for push reference validation.");
+              return;
+          }
 
-        setIsPushReferenceValidating(true);
-        setPushReferenceValidationResult(null);
+          setIsPushReferenceValidating(true);
+          setPushReferenceValidationResult(null);
 
-        try {
-            const monto = paymentSummary.totalAmount.toString();
-            const banco = selectedBank.bank_code;
-            const fecha = new Date().toISOString().slice(0, 10);
-            const validationResult = await validatePushReference(monto, banco, fecha, cedula, telefono, apiToken);
-            setPushReferenceValidationResult(validationResult);
-            //("Push reference validation result:", validationResult);
-        } catch (error: any) {
-            console.error("Error in push reference validation:", error);
-            setPushReferenceValidationResult({ status: false, message: `Validation failed: ${error.message}` });
-        }
-    }, [selectedBank, cedula, telefono, paymentSummary.totalAmount, setPushReferenceValidationResult, setIsPushReferenceValidating, apiToken, isManualReference]);
+          try {
+              const monto = paymentSummary.totalAmount.toString();
+              const banco = selectedBank.bank_code;
+
+              // Create a Date object for the current date in the local timezone
+              const now = new Date();
+              const year = now.getFullYear();
+              const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+              const day = String(now.getDate()).padStart(2, '0');
+              const fecha = `${year}-${month}-${day}`;
+
+              const validationResult = await validatePushReference(monto, banco, fecha, cedula, telefono, apiToken);
+              setPushReferenceValidationResult(validationResult);
+              //console.log("Push reference validation result:", validationResult);
+          } catch (error: any) {
+              console.error("Error in push reference validation:", error);
+              setPushReferenceValidationResult({ status: false, message: `Validation failed: ${error.message}` });
+          }
+      }, [selectedBank, cedula, telefono, paymentSummary.totalAmount, setPushReferenceValidationResult, setIsPushReferenceValidating, apiToken, isManualReference]);
 
     useEffect(() => {
          ////console.log("useEffect for push reference validation triggered");
@@ -272,7 +279,14 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
                     try {
                         const monto = paymentSummary.totalAmount.toString();
                         const banco = selectedBank.bank_code;
-                        const fecha = new Date().toISOString().slice(0, 10);
+
+                        // Get the current date in the local timezone
+                        const now = new Date();
+                        const year = now.getFullYear();
+                        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                        const day = String(now.getDate()).padStart(2, '0');
+                        const fecha = `${year}-${month}-${day}`;
+
                         const validationResult = await validatePushReference(monto, banco, fecha, cedula, telefono, apiToken);
                         ////console.log("Push reference validation result:", validationResult);
                         setPushReferenceValidationResult(validationResult);
@@ -397,7 +411,13 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
             }
 
             const idFormaPago = paymentMethod.payment_method_id;
-            const fecha = new Date().toISOString().slice(0, 10);
+            //Get the current data and format it as YYYY-MM-DD
+            const now = new Date()
+            const year = now.getFullYear()
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const fecha = `${year}-${month}-${day}`
+
             const cedula = clientData.cliente.rif_fiscal;
             const idCliente = clientData.cliente.id;
 
@@ -534,7 +554,7 @@ export const InvoiceProvider: React.FC<InvoiceProviderProps> = ({ children }) =>
         isManualReference,
         setIsManualReference,
         handleStartOver,
-        handleBack, 
+        handleBack,
         setInvoices
     };
 

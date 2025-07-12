@@ -1,4 +1,3 @@
-// src/components/Step3ConfirmPayment.tsx
 import React, { useState, useCallback } from 'react';
 import { PaymentSummary } from '../types/invoice';
 import { CreditCard, ArrowLeft, Lock, Shield, CheckCircle } from 'lucide-react';
@@ -15,12 +14,11 @@ export const Step3ConfirmPayment: React.FC<Step3Props> = ({
     const { referenceNumber, setCurrentStep, createPushPaymentAndProceed, selectedBank } = useInvoiceContext();
 
     const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('es-ES', {
-            style: 'currency',
-            currency: 'VES',
+        const formattedAmount = new Intl.NumberFormat('es-VE', { //es-VE
+            style: 'decimal',
             minimumFractionDigits: 2
         }).format(amount);
-
+        return `Bs. ${formattedAmount}`;
     };
 
     const handleConfirm = useCallback(async () => {
